@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Carbon Tracker</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="tracker-card">
+    <h2>Daily Carbon Tracker</h2>
+    <p class="subtitle">Estimate your daily $\text{CO}_2$ emissions</p>
+
+    <form id="carbon-form">
+      <div class="input-group">
+        <label for="transport">Car Travel (km/day):</label>
+        <input type="number" id="transport" min="0" placeholder="e.g. 15" value="0">
+      </div>
+
+      <div class="input-group">
+        <label for="electricity">Electricity Usage (kWh/day):</label>
+        <input type="number" id="electricity" min="0" placeholder="e.g. 10" value="0">
+      </div>
+
+      <div class="input-group">
+        <label for="meat">Meat Meals (per day):</label>
+        <input type="number" id="meat" min="0" placeholder="e.g. 2" value="0">
+      </div>
+
+      <button type="submit" id="calculate-btn">Calculate Emissions</button>
+    </form>
+
+    <div id="result-box" class="result-box hidden">
+      <h3>Your Daily Impact</h3>
+      <p><span id="total-emissions">0</span> kg $\text{CO}_2$ / day</p>
+      <p id="feedback-text" class="feedback"></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
