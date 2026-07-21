@@ -1,34 +1,110 @@
-document.getElementById('carbon-form').addEventListener('submit', function (event) {
-  event.preventDefault();
+/* General reset and font setup */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-  // Read input values (defaults to 0 if empty)
-  const transportKm = parseFloat(document.getElementById('transport').value) || 0;
-  const electricityKwh = parseFloat(document.getElementById('electricity').value) || 0;
-  const meatMeals = parseFloat(document.getElementById('meat').value) || 0;
+body {
+  background-color: #f0f4f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
 
-  // Approximate emission factors (in kg CO2 per unit)
-  // - Average gas car: ~0.171 kg CO2 per km
-  // - Electricity (US/Global avg mix): ~0.385 kg CO2 per kWh
-  // - Average meat-heavy meal: ~2.5 kg CO2 per meal
-  const transportEmissions = transportKm * 0.171;
-  const electricityEmissions = electricityKwh * 0.385;
-  const meatEmissions = meatMeals * 2.5;
+.tracker-card {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 400px;
+}
 
-  const totalEmissions = (transportEmissions + electricityEmissions + meatEmissions).toFixed(2);
+h2 {
+  color: #2d3748;
+  margin-bottom: 5px;
+}
 
-  // Update DOM with total results
-  document.getElementById('total-emissions').textContent = totalEmissions;
+.subtitle {
+  color: #718096;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
 
-  // Provide contextual feedback based on daily total
-  const feedbackEl = document.getElementById('feedback-text');
-  if (totalEmissions < 8) {
-    feedbackEl.textContent = 'Great job! Your daily estimated footprint is below average.';
-  } else if (totalEmissions <= 20) {
-    feedbackEl.textContent = 'Your footprint is around average. Small tweaks can help lower it further!';
-  } else {
-    feedbackEl.textContent = 'Your daily footprint is above average. Consider carpooling or reducing meat intake.';
-  }
+.input-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
 
-  // Show result box
-  document.getElementById('result-box').classList.remove('hidden');
-});
+label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #4a5568;
+  margin-bottom: 5px;
+}
+
+input {
+  padding: 10px;
+  border: 1px solid #cbd5e0;
+  border-radius: 6px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+input:focus {
+  border-color: #38a169;
+}
+
+button {
+  width: 100%;
+  background-color: #38a169;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #2f855a;
+}
+
+/* Results section */
+.result-box {
+  margin-top: 25px;
+  padding: 15px;
+  background-color: #f7fafc;
+  border-left: 4px solid #38a169;
+  border-radius: 4px;
+}
+
+.result-box h3 {
+  font-size: 1rem;
+  color: #2d3748;
+}
+
+.result-box #total-emissions {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #2b6cb0;
+}
+
+.feedback {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: #4a5568;
+}
+
+.hidden {
+  display: none;
+}
