@@ -1,43 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Daily Carbon Tracker</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+document.getElementById('carbon-form').addEventListener('submit', function (event) {
+  event.preventDefault();
 
-  <div class="tracker-card">
-    <h2>Daily Carbon Tracker</h2>
-    <p class="subtitle">Estimate your daily $\text{CO}_2$ emissions</p>
+  // Read input values (defaults to 0 if empty)
+  const transportKm = parseFloat(document.getElementById('transport').value) || 0;
+  const electricityKwh = parseFloat(document.getElementById('electricity').value) || 0;
+  const meatMeals = parseFloat(document.getElementById('meat').value) || 0;
 
-    <form id="carbon-form">
-      <div class="input-group">
-        <label for="transport">Car Travel (km/day):</label>
-        <input type="number" id="transport" min="0" placeholder="e.g. 15" value="0">
-      </div>
+  // Approximate emission factors (in kg CO2 per unit)
+  // - Average gas car: ~0.171 kg CO2 per km
+  // - Electricity (US/Global avg mix): ~0.385 kg CO2 per kWh
+  // - Average meat-heavy meal: ~2.5 kg CO2 per meal
+  const transportEmissions = transportKm * 0.171;
+  const electricityEmissions = electricityKwh * 0.385;
+  const meatEmissions = meatMeals * 2.5;
 
-      <div class="input-group">
-        <label for="electricity">Electricity Usage (kWh/day):</label>
-        <input type="number" id="electricity" min="0" placeholder="e.g. 10" value="0">
-      </div>
+  const totalEmissions = (transportEmissions + electricityEmissions + meatEmissions).toFixed(2);
 
-      <div class="input-group">
-        <label for="meat">Meat Meals (per day):</label>
-        <input type="number" id="meat" min="0" placeholder="e.g. 2" value="0">
-      </div>
+  // Update DOM with total results
+  document.getElementById('total-emissions').textContent = totalEmissions;
 
-      <button type="submit" id="calculate-btn">Calculate Emissions</button>
-    </form>
+  // Provide contextual feedback based on daily total
+  const feedbackEl = document.getElementById('feedback-text');
+  if (totalEmissions < 8) {
+    feedbackEl.textContent = 'Great job! Your daily estimated footprint is below average.';
+  } else if (totalEmissions <= 20) {
+    feedbackEl.textContent = 'Your footprint is around average. Small tweaks can help lower it further!';
+  } else {
+    feedbackEl.textContent = 'Your daily footprint is above average. Consider carpooling or reducing meat intake.';
+  }
 
-    <div id="result-box" class="result-box hidden">
-      <h3>Your Daily Impact</h3>
-      <p><span id="total-emissions">0</span> kg $\text{CO}_2$ / day</p>
-      <p id="feedback-text" class="feedback"></p>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
-</body>
-</html>
+  // Show result box
+  document.getElementById('result-box').classList.remove('hidden');
+});
